@@ -1,6 +1,6 @@
 const Sequelize=require("sequelize");
 const db=require("../config/databseconfig")
-const expense=db.define("user",{
+const expense=db.define("expenses",{
     id:{
       type: Sequelize.INTEGER,
       unique: true ,

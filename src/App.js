@@ -7,6 +7,8 @@ import {
 import Addexpense from './component/Addexpense';
 import Allexpense from "./component/Allexpense";
 import Editexpense from "./component/Editexpense";
+import Signin from "./component/Signuppages/signin";
+import Signup from "./component/Signuppages/Signup";
 import Contextprovider from "./component/Store/Contextprovider";
  
 function App() {
@@ -15,12 +17,19 @@ function App() {
     element:<Allexpense/>
     },
     {
-      path:'/addexpense',
+      path:'/signup',
+      element:<Signup/>
+    },
+    {
+      path:"/addexpense",
       element:<Addexpense/>
     },
     {
       path:'/editexpense/:id',
       element:<Editexpense/>
+    },{
+      path:"/signin",
+      element:<Signin/>
     }
   ])
   

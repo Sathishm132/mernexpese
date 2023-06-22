@@ -1,0 +1,16 @@
+.cover{
+position: relative;
+display: flex;
+justify-content: center;
+}
+.form{
+    position: absolute;
+    top: 150px;
+    min-height: fit-content;
+    background-color: beige;
+    padding: 2rem;
+}
+.form h2{
+    text-align: center;
+    margin-bottom: 1rem;
+}

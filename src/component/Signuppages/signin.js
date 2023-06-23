@@ -16,7 +16,7 @@ const Signin = () => {
         password:password.current.value,
 
       }
-      axios.post("http://localhost:5000/user",user).then(()=>{
+      axios.post("http://localhost:5000/signin",user).then(()=>{
 
       }).catch((err)=>{
         console.log(err)

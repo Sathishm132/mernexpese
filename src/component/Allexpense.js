@@ -16,7 +16,7 @@ const Allexpense = () => {
     const expenselist=expense.map((expense)=>(<ul><Expensecard
     date={expense.expenseDate}
     category={expense.expensecategory}
-    amount={expense.expensecategory}
+    amount={expense.expenseamount}
     description={expense.expenseDescription}
     id={expense.id}
     /></ul>))

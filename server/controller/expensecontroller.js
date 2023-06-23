@@ -1,6 +1,7 @@
 const expense=require("../modles/expensemodel")
 exports.getexpense=(req,res)=>{
     expense.findAll().then((expenses)=>{
+        console.log(req.user.id)
         res.status(200).json({allexpenses:expenses})
     })
    

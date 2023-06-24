@@ -1,8 +1,12 @@
 const expense=require("../modles/expensemodel")
 exports.getexpense=(req,res)=>{
-    expense.findAll().then((expenses)=>{
-        console.log(req.user.id)
+    expense.findAll({where:{
+        userId:req.user.id
+    }}).then((expenses)=>{
+        
         res.status(200).json({allexpenses:expenses})
+    }).catch((err)=>{
+        console.log(err)
     })
    
 

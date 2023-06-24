@@ -1,15 +1,17 @@
 const jwt=require("jsonwebtoken")
 const User=require("../modles/usermodel")
-const auth=(req,res,next)=>{
-    const token=req.header("Authorization")
-    console.log(token)
-   const decodes= jwt.verify(token, 'shhhhh');
-   User.findAll({where:{
+const auth=async(req,res,next)=>{
+    const token=await req.header("Authorization")
+   
+   const decodes= await jwt.verify(token, 'shhhhh');
+   const user=await User.findAll({where:{
     id:decodes.id
-   }}).then((user)=>{
-    req.user=user[0]
-    next()
-   })
+   }})
+
+     req.user=user[0]
+     next()
+     
+
 
 }
 module.exports=auth

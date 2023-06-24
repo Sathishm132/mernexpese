@@ -7,6 +7,8 @@ const User=require("./modles/usermodel")
 const users=require("./routes/userroutes")
 const loinrouter=require("./routes/loginrout")
 const sequelize=require("./config/databseconfig")
+const pymentrouter=require("./routes/payment")
+const order=require("./modles/paymentmodel")
 const cors=require("cors")
 app.use(cors())
 app.use(body_praser.json())
@@ -15,8 +17,12 @@ app.use(body_praser.json())
 app.use("/user",users)
 app.use("/signin",loinrouter)
 app.use("/api",expenserouter)
+app.use("/payment",pymentrouter)
 User.hasMany(expenses);
 expenses.belongsTo(User);
+User.hasMany(order)
+order.belongsTo(User)
+
 
 sequelize.sync().then(()=>{
 console.log("seq sucsess")

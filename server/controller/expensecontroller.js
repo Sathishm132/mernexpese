@@ -18,7 +18,7 @@ exports.postexpense=(req,res)=>{
     expenseDescription=req.body.expensedescription;
     
 
-    expense.create({
+    req.user.createExpense({
         expenseDate:expenseDate,
         expensecategory:expensecategory,
         expenseamount:expenseamount,

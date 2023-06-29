@@ -18,6 +18,10 @@ const users=db.define("user",{
       },
       password:{
         type:Sequelize.STRING,
+      },
+      premium:{
+        type:Sequelize.BOOLEAN
       }
+      
 })
 module.exports=users

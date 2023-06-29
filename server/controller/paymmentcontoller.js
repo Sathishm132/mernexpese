@@ -8,7 +8,7 @@ try{
     key_secret: 'E5uPPJcHoGYXonI7uDJpVM8h',
   })
    const order = await instance.orders.create({
-    "amount": 499,
+    "amount": 49900,
     "currency": "INR",
     "receipt": "receipt#1",
     "partial_payment": false,
@@ -22,7 +22,8 @@ try{
    paymentstatus:"pending"
 })  
  await res.json({order,"key_id":instance.key_id})
-}catch{
+}catch(err){
+  res.json(err)
   
 }
 
@@ -30,6 +31,12 @@ try{
     
     
 }
- exports.postpayment=(req,res)=>{
+ exports.postpayment=async(req,res)=>{
+  await order.update({ paymentid:req.body.payment_id,paymentstatus:"sucsess" }, {
+    where: {
+       orderid:req.body.order_id
+    }
+  })
+  await req.user.update({premium:true})
   res.json("sucsess")
  }

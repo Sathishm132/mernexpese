@@ -13,7 +13,7 @@ exports.postlogin=(req,res)=>{
             bcrypt.compare(req.body.password, result[0].password, function(err, resul) {
                 if(resul===true){
                  const token=  jwt.sign({ id:result[0].id,name:result[0].name }, 'shhhhh')
-                    return  res.json({"token":token})
+                    return  res.json({"token":token,"premium":result[0].premium})
                         }
             else{
                          return   res.json("passwod does not match")

@@ -7,16 +7,21 @@ exports.getleaderboard=async(req,res)=>{
 try{
     const leaderBoard= await users.findAll({
         attributes:["id","name",[sequelize.fn("sum",sequelize.col("expenses.expenseamount")),"totalamount"]],
-        include:[{
-            model:expenses,
-            attributes:[]
-        }],
-        group:["users.id"]
+        include:[
+            {
+                model:expenses,
+                attributes:[],
+            }
+        ],
+        group:["user.id"],
+        order:[["totalamount","DESC"]]
     })
+    await console.log(leaderBoard)
    
     res.json(leaderBoard)
 }
-catch{
+catch(err){
+    console.log(err)
 
 }
 }

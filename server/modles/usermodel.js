@@ -21,6 +21,11 @@ const users=db.define("user",{
       },
       premium:{
         type:Sequelize.BOOLEAN
+      },
+      totalamount:{
+        type:Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
       }
       
 })

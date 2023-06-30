@@ -16,14 +16,16 @@ exports.postexpense=(req,res)=>{
     expensecategory=req.body.expensecategory;
     expenseamount=req.body.expenseamount;
     expenseDescription=req.body.expensedescription;
+    totalamount=+req.user.totalamount+expenseamount
     
-
+    req.user.update({totalamount:totalamount})
+    console.log(totalamount)
     req.user.createExpense({
         expenseDate:expenseDate,
         expensecategory:expensecategory,
-        expenseamount:expenseamount,
-        expenseDescription:expenseDescription
-
+        expenseamount:+expenseamount,
+        expenseDescription:expenseDescription,
+       
     }).then(()=>{
         res.json(req.body)
     })

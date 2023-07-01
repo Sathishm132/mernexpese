@@ -1,4 +1,5 @@
-const expense=require("../modles/expensemodel")
+const expense=require("../modles/expensemodel");
+const sequelize=require("../config/databseconfig")
 exports.getexpense=(req,res)=>{
     expense.findAll({where:{
         userId:req.user.id
@@ -11,32 +12,61 @@ exports.getexpense=(req,res)=>{
    
 
 }
-exports.postexpense=(req,res)=>{
-    expenseDate=req.body.expensedate;
-    expensecategory=req.body.expensecategory;
-    expenseamount=req.body.expenseamount;
-    expenseDescription=req.body.expensedescription;
-    totalamount=+req.user.totalamount+expenseamount
+exports.postexpense=async(req,res)=>{
+
+    let t
+   const {expensedate,expensecategory,expenseamount,expensedescription}=req.body
     
-    req.user.update({totalamount:totalamount})
-    console.log(totalamount)
-    req.user.createExpense({
-        expenseDate:expenseDate,
+   
+    const totalamount=Number(req.user.totalamount)+Number(expenseamount)
+     try{
+       t=  await sequelize.transaction();
+       await req.user.update({totalamount:totalamount},{transaction:t})
+      
+       await req.user.createExpense({
+        expenseDate:expensedate,
         expensecategory:expensecategory,
-        expenseamount:+expenseamount,
-        expenseDescription:expenseDescription,
+        expenseamount:expenseamount,
+        expenseDescription:expensedescription,
        
-    }).then(()=>{
-        res.json(req.body)
-    })
+    }, {transaction:t}   
+    )
+    await res.json(req.body)
+    await t.commit()
+
+     }catch(err){
+        console.log(err)
+        res.status(500).json({"err":err})
+        if(t){
+
+            await t.rollback()
+        }
+
+       
+     }
+    
+    
+    
+    
+  
 
 }
-exports.deleteexpense=(req,res)=>{
-    expense.destroy({
+exports.deleteexpense=async(req,res)=>{
+    const deleteexpense=await expense.findAll({
         where:{
             id:req.params.id
         }
     })
+  const  upddatedtotal= await Number(req.user.totalamount)-Number(deleteexpense[0].expenseamount)
+  await  console.log(deleteexpense)
+  
+    await req.user.update({totalamount:upddatedtotal})
+   await expense.destroy({
+        where:{
+            id:req.params.id
+        }
+    })
+    await res.json("sucsess")
 
 }
 exports.editexpense=(req,res)=>{
@@ -47,6 +77,7 @@ exports.editexpense=(req,res)=>{
         where: {
           id: req.params.id
         }
+
       }).then(()=>{
         console.log("sucsess")
         res.status(200).json("JDQDG")

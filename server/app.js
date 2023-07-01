@@ -10,11 +10,12 @@ const sequelize=require("./config/databseconfig")
 const pymentrouter=require("./routes/payment")
 const order=require("./modles/paymentmodel")
 const premiumrouter=require("./routes/premium")
+const passwordroutes=require("./routes/passwordroutes")
 const cors=require("cors")
 app.use(cors())
 app.use(body_praser.json())
 
-
+app.use("/password",passwordroutes)
 app.use("/user",users)
 app.use("/premium",premiumrouter)
 app.use("/signin",loinrouter)

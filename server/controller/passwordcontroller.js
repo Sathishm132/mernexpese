@@ -1,9 +1,26 @@
 const Sib=require("sib-api-v3-sdk")
 require('dotenv').config()
-exports.postemail=(req,res)=>{
+const { v4: uuidv4 } = require("uuid");
+const frgtpassreqs=require("../modles/resetpassword")
+const user=require("../modles/usermodel");
+exports.postemail=async(req,res)=>{
+const email=req.body.email
+const users=await user.findAll({where:{
+    email:email
+}})
+const id=users[0].id
+const uuid= await uuidv4()
+await frgtpassreqs.create({
+    id:uuid,
+    isactive:true,
+    userId:id
+},)
+console.log(users)
+const url=`http://localhost:5000/password/${uuid}`
+
 const defaultClient = Sib.ApiClient.instance;
-const apiKey = Sib.authentications['api-key'];
-apiKey.apiKey = "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"
+const apiKey = defaultClient.authentications['api-key'];
+apiKey.apiKey = process.env.API_KEY
 
 
 const tranEmailApi = new Sib.TransactionalEmailsApi();
@@ -12,13 +29,14 @@ const sender={
     email:"sathish.132ms@gmail.com"
 }
 const reciver=[{
-    email:"mragul164@gmail.com"
+    email:"sathish.132ms@gmail.com"
 }]
 tranEmailApi.sendTransacEmail({
     sender,
     to:reciver,
-    subject:"hclulufj qhjql",
-    textContent:"yuc    qu7dfgd2w"
+    subject:"password reset",
+    textContent:"reset password",
+    htmlContent:`click <br/><a href=${url}>clickhee</a>`
 }).then((result)=>{
     console.log(result)
     res.json("sucsess")
@@ -27,4 +45,10 @@ tranEmailApi.sendTransacEmail({
 
 
     
+}
+exports.getrest=async(req,res)=>{
+console.log(req.params)
+const fpr=await frgtpassreqs.findOne({where:{id:req.params.id}})
+
+res.json("ffrst")
 }

@@ -1,4 +1,5 @@
 const Sib=require("sib-api-v3-sdk")
+const bcrypt=require("bcrypt")
 require('dotenv').config()
 const { v4: uuidv4 } = require("uuid");
 const frgtpassreqs=require("../modles/resetpassword")
@@ -48,7 +49,54 @@ tranEmailApi.sendTransacEmail({
 }
 exports.getrest=async(req,res)=>{
 console.log(req.params)
+const id=req.params.id
 const fpr=await frgtpassreqs.findOne({where:{id:req.params.id}})
+if(fpr){
+    res.status(200).send(`<html>
+    <script>
+        function formsubmitted(e){
+            e.preventDefault();
+            console.log('called')
+        }
+    </script>
 
-res.json("ffrst")
+    <form action="/password/updatepassword/${id}" method="get">
+        <label for="newpassword">Enter New password</label>
+        <input name="newpassword" type="password" required></input>
+        <button>reset password</button>
+    </form>
+</html>`)
 }
+
+
+}
+exports.updatepassword=(req,res)=>{
+    try {
+        const { newpassword } = req.query;
+        const { resetpasswordid } = req.params;
+        frgtpassreqs.findOne({ where : { id: resetpasswordid }}).then(resetpasswordrequest => {
+            user.findOne({where: { id : resetpasswordrequest.userId}}).then(user => {
+                
+                if(user) {
+                
+
+               
+                        bcrypt.hash(newpassword, 10, function(err, hash) {
+                            
+                            if(err){
+                                console.log(err);
+                                throw new Error(err);
+                            }
+                            user.update({ password: hash }).then(() => {
+                                res.status(201).json({message: 'Successfuly update the new password'})
+                            })
+                        });
+                    }
+             else{
+                return res.status(404).json({ error: 'No user Exists', success: false})
+            }
+            })
+        })
+    } catch(error){
+        return res.status(403).json({ error, success: false } )
+    }}

@@ -1,6 +1,7 @@
 const expense=require("../modles/expensemodel");
 const sequelize=require("../config/databseconfig")
 exports.getexpense=(req,res)=>{
+   
     expense.findAll({where:{
         userId:req.user.id
     }}).then((expenses)=>{

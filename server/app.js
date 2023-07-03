@@ -12,6 +12,7 @@ const order=require("./modles/paymentmodel")
 const premiumrouter=require("./routes/premium")
 const passwordroutes=require("./routes/passwordroutes")
 const forgot=require("./modles/resetpassword")
+const download=require("./modles/downloadmodel")
 const cors=require("cors")
 app.use(cors())
 app.use(body_praser.json())
@@ -28,6 +29,8 @@ User.hasMany(order)
 order.belongsTo(User)
 User.hasMany(forgot)
 forgot.belongsTo(User)
+User.hasMany(download);
+download.belongsTo(User)
 
 sequelize.sync().then(()=>{
 console.log("seq sucsess")

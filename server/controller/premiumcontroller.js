@@ -31,7 +31,16 @@ exports.download=async(req,res)=>{
       const expense= await expenses.findAll({where:{
             userId:req.user.id
         }})
-        const filename=await `Expense${req.user.id}/${new Date()}.text`
+        const currentDate=new Date()
+        const year = currentDate.getFullYear();
+const month = currentDate.getMonth() + 1; // Months are zero-based, so add 1 to get the correct month number
+const day = currentDate.getDate();
+const hours = currentDate.getHours();
+const minutes = currentDate.getMinutes();
+const seconds = currentDate.getSeconds();
+        const formattedDate=`${year}/${month}/${day}/${hours}/${minutes
+        }`
+        const filename=await `Expense${req.user.id}/${formattedDate}.text`
        const stingifyexpense=await JSON.stringify(expense)
         console.log(stingifyexpense)
        await uploadtos3.uploadtos3(stingifyexpense,filename)

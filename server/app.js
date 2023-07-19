@@ -14,8 +14,11 @@ const passwordroutes=require("./routes/passwordroutes")
 const forgot=require("./modles/resetpassword")
 const download=require("./modles/downloadmodel")
 const cors=require("cors")
+const dotenv=require("dotenv").config()
+
 app.use(cors())
 app.use(body_praser.json())
+
 
 app.use("/password",passwordroutes)
 app.use("/user",users)

@@ -2,8 +2,8 @@ const {S3Client,PutObjectCommand}=require("@aws-sdk/client-s3")
 const uploadtos3=async (data,filenme)=>{
     const s3clieint= await new S3Client({
          credentials: {
-             accessKeyId:"AKIARQHUE2MPZVDE6O4G",
-             secretAccessKey:"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",
+             accessKeyId:`${process.env.IAM_USER_KEY}`,
+             secretAccessKey:`${process.env.IAM_SECREATE_KEY}`,
          },
          region:"us-west-2"
      })

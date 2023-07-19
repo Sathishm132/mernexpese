@@ -1,6 +1,6 @@
 const Sequelize=require('sequelize')
-const sequelize = new Sequelize(process.env.DBNAME, process.env.USER, process.env.PASSWORD, {
-    host: process.env.DB,
+const sequelize = new Sequelize('node-complete', 'root', 'Sathish1032', {
+    host: 'localhost',
     dialect:'mysql'
   });
   module.exports=sequelize

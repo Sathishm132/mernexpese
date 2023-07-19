@@ -1,5 +1,5 @@
 const Sequelize=require('sequelize')
-const sequelize = new Sequelize('node-complete', 'root', 'Sathish1032', {
+const sequelize = new Sequelize(process.env.DB, process.env.USER, process.env.PASSWORD, {
     host: 'localhost',
     dialect:'mysql'
   });

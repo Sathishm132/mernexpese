@@ -12,6 +12,7 @@ const Addexpense = () => {
     const expensecategory=useRef();
     const expensedescription=useRef();
     const navigate=useNavigate()
+    const token=localStorage.getItem("token")
   const submithandler=(event)=>{
     event.preventDefault();
     const expense={
@@ -20,7 +21,7 @@ const Addexpense = () => {
       expensecategory:expensecategory.current.value,
       expensedescription:expensedescription.current.value
     }
-    axios.post("http://localhost:5000/api",expense).then(()=>{
+    axios.post("http://localhost:5000/api",expense,{headers:{"Authorization":token}}).then(()=>{
         expensedate.current.value=null;
         expenseamount.current.value=null;
         expensecategory.current.value=null;
@@ -45,7 +46,14 @@ const Addexpense = () => {
       </Form.Group>
       <Form.Group className="mb-3" controlId="formGroupPassword">
         <Form.Label>Expense category</Form.Label>
-        <Form.Control type="text"ref={expensecategory}required placeholder="enter category" />
+        <Form.Select ref={expensecategory}>
+        <option>Default select</option>
+        <option>fuel</option>
+        <option>grocerry</option>
+        <option>Entertainment</option>
+        <option>vacations</option>
+        <option>Bills</option>
+      </Form.Select>
       </Form.Group>
       <Form.Group className="mb-3" controlId="formGroupPassword">
         <Form.Label>Expense description</Form.Label>
